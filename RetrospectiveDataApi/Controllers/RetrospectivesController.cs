@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using RetrospectiveDataApi.Exceptions;
 using RetrospectiveDataApi.Models;
 using RetrospectiveDataApi.Repositories.Interfaces;
@@ -17,13 +14,11 @@ namespace RetrospectiveDataApi.Controllers
     [Route("api/[controller]")]
     public class RetrospectivesController : ControllerBase
     {
-        private readonly ILogger<RetrospectivesController> _logger;
         private readonly IFileServiceRepository _fileServiceRepository;
         private readonly string _filePath;
 
-        public RetrospectivesController(ILogger<RetrospectivesController> logger, IFileServiceRepository fileServiceRepository, IConfiguration configuration)
+        public RetrospectivesController(IFileServiceRepository fileServiceRepository, IConfiguration configuration)
         {
-            _logger = logger;
             _fileServiceRepository = fileServiceRepository;
 
             _filePath = configuration["FilePath"];
@@ -48,14 +43,16 @@ namespace RetrospectiveDataApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to get retrospective data");
-                return StatusCode(StatusCodes.Status500InternalServerError, new {Message = "Internal server error"});
-            }        
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = $"Internal server error: {ex.Message}" });
+            }
         }
 
         [HttpGet("{name}")]
         public async Task<ActionResult> Get(string name)
         {
+            if (string.IsNullOrEmpty(name))
+                return BadRequest("Invalid name value");
+
             try
             {
                 var retrospectiveDataList = await _fileServiceRepository.GetRetrospectiveData(_filePath);
@@ -71,8 +68,7 @@ namespace RetrospectiveDataApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to get retrospective data");
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Internal server error" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = $"Internal server error: {ex.Message}" });
             }
         }
 
@@ -80,7 +76,7 @@ namespace RetrospectiveDataApi.Controllers
         public async Task<ActionResult> Post([FromBody] RetrospectiveData retrospectiveData)
         {
             if (!ModelState.IsValid)
-                return BadRequest("Invalid data");
+                return BadRequest("Invalid retrospective data");
 
             try
             {
@@ -104,16 +100,16 @@ namespace RetrospectiveDataApi.Controllers
         [HttpGet("Search")]
         public async Task<ActionResult> Search(string date)
         {
-            if (date == null)
-                return BadRequest("Invalid date");
+            if (string.IsNullOrEmpty(date))
+                    return BadRequest("Invalid date value");
             try
             {
                 var retrospectiveDataList = await _fileServiceRepository.GetRetrospectiveData(_filePath);
+                var retrospectiveData = retrospectiveDataList?.Where(x => x.Date == date);
 
-                if (retrospectiveDataList != null)
+                if (retrospectiveData != null)
                 {
-                    //pmalik: todo: filter on date here
-                    return Ok(retrospectiveDataList);
+                    return Ok(retrospectiveData);
                 }
                 else
                     return NoContent();
@@ -121,8 +117,7 @@ namespace RetrospectiveDataApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to get retrospective data");
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Internal server error" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = $"Internal server error: {ex.Message}" });
             }
         }
 
