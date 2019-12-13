@@ -1,0 +1,52 @@
+[
+  {
+    "Name": "Retrospective 1",
+    "Summary": "Post release retrospective",
+    "Date": "27/07/2016",
+    "Feedback": [
+      {
+        "Name": "Gareth",
+        "Body": "Sprint objective met",
+        "FeedbackType": 0
+      },
+      {
+        "Name": "Viktor",
+        "Body": "Too many items piled up in the awaiting QA",
+        "FeedbackType": 1
+      },
+      {
+        "Name": "Mike",
+        "Body": "We should be looking to start using VS2015",
+        "FeedbackType": 2
+      }
+    ]
+  },
+  {
+    "Name": "Retrospective2",
+    "Summary": "Post release retrospective2",
+    "Date": "27/07/2016",
+    "Feedback": [
+      {
+        "Name": "Gareth",
+        "Body": "Sprint objective met",
+        "FeedbackType": 0
+      },
+      {
+        "Name": "Viktor",
+        "Body": "Too many items piled up in the awaiting QA",
+        "FeedbackType": 1
+      },
+      {
+        "Name": "Mike",
+        "Body": "We should be looking to start using VS2015",
+        "FeedbackType": 2
+      }
+    ]
+  },
+  {
+    "Name": "Retrospective3",
+    "Summary": "Post release retrospective2",
+    "Date": "27/07/2016",
+    "Feedback": null
+  }
+]

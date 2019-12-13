@@ -6,7 +6,7 @@ namespace RetrospectiveDataApi.Repositories.Interfaces
 {
     public interface IFileServiceRepository
     {
-        Task<IEnumerable<RetrospectiveData>> GetRetrospectiveData(string filePath);
-        Task<RetrospectiveData> AddRetrospectiveData(RetrospectiveData retrospectiveData);
+        Task<IList<RetrospectiveData>> GetRetrospectiveData(string filePath);
+        Task<RetrospectiveData> AddRetrospectiveData(string filePath, RetrospectiveData retrospectiveData);
     }
 }

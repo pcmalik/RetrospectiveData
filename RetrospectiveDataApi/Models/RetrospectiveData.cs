@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace RetrospectiveDataApi.Models
 {
     public class RetrospectiveData
     {
-
+        [Required]
         public string Name { get; set; }
         public string Summary { get; set; }
         public string Date { get; set; } //pmalik - todo: change it to datetime

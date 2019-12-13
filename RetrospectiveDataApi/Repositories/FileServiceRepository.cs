@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using RetrospectiveDataApi.Exceptions;
 using RetrospectiveDataApi.Models;
 using RetrospectiveDataApi.Repositories.Interfaces;
 
@@ -27,16 +29,16 @@ namespace RetrospectiveDataApi.Repositories
         /// </summary>
         /// <param name="filePath">The file path.</param>
         /// <returns></returns>
-        public async Task<IEnumerable<RetrospectiveData>> GetRetrospectiveData(string filePath)
+        public async Task<IList<RetrospectiveData>> GetRetrospectiveData(string filePath)
         {
             var retrospectiveDataList = new List<RetrospectiveData>();
             var file = Path.Combine(Directory.GetCurrentDirectory(), filePath);
 
             try
             {
-                using (StreamReader r = new StreamReader(file))
+                using (StreamReader sr = new StreamReader(file))
                 {
-                    string json = await r.ReadToEndAsync();
+                    string json = await sr.ReadToEndAsync();
                     retrospectiveDataList = JsonConvert.DeserializeObject<List<RetrospectiveData>>(json);
                 }
             }
@@ -54,18 +56,34 @@ namespace RetrospectiveDataApi.Repositories
             return retrospectiveDataList;
         }
 
-        public async Task<RetrospectiveData> AddRetrospectiveData(RetrospectiveData retrospectiveData)
+        public async Task<RetrospectiveData> AddRetrospectiveData(string filePath, RetrospectiveData retrospectiveData)
         {
             try
             {
-                using (StreamReader r = new StreamReader("test"))
+                var retrospectiveDataList = GetRetrospectiveData(filePath).Result;
+
+                var itemExists = retrospectiveDataList.Any(x => x.Name == retrospectiveData.Name);
+
+                if (itemExists)
+                    throw new DuplicateItemException("Insert failed as this retrospective item already exists");
+
+                retrospectiveDataList.Add(retrospectiveData);
+                var data = JsonConvert.SerializeObject(retrospectiveDataList);
+
+                using (FileStream stream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None, 4096, true))
+                using (StreamWriter sw = new StreamWriter(stream))
                 {
-                    string json = await r.ReadToEndAsync();
+                    await sw.WriteLineAsync(data);
                 }
             }
-            catch (IOException ioEx)
+            catch (DuplicateItemException ex)
             {
-                _logger.LogError(ioEx, "File related exception");
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
+            catch (IOException ex)
+            {
+                _logger.LogError(ex, "File related exception");
                 throw;
             }
             catch (Exception ex)

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using RetrospectiveDataApi.Exceptions;
 using RetrospectiveDataApi.Models;
 using RetrospectiveDataApi.Repositories.Interfaces;
 
@@ -33,7 +34,7 @@ namespace RetrospectiveDataApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<RetrospectiveData>> Get()
+        public async Task<ActionResult> Get()
         {
             try
             {
@@ -53,12 +54,12 @@ namespace RetrospectiveDataApi.Controllers
         }
 
         [HttpGet("{name}")]
-        public async Task<ActionResult<RetrospectiveData>> Get(string name)
+        public async Task<ActionResult> Get(string name)
         {
             try
             {
                 var retrospectiveDataList = await _fileServiceRepository.GetRetrospectiveData(_filePath);
-                var retrospectiveData = retrospectiveDataList?.Select(x => x.Name == name);
+                var retrospectiveData = retrospectiveDataList?.FirstOrDefault(x => x.Name == name);
 
                 if (retrospectiveData != null)
                 {
@@ -76,26 +77,32 @@ namespace RetrospectiveDataApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<RetrospectiveData>> Post([FromBody] RetrospectiveData retrospectiveData)
+        public async Task<ActionResult> Post([FromBody] RetrospectiveData retrospectiveData)
         {
+            if (!ModelState.IsValid)
+                return BadRequest("Invalid data");
+
             try
             {
-                var result = await _fileServiceRepository.AddRetrospectiveData(retrospectiveData);
+                var result = await _fileServiceRepository.AddRetrospectiveData(_filePath, retrospectiveData);
 
                 if (result != null)
-                    return CreatedAtAction("Get", result.Name);
+                    return CreatedAtAction($"Get", new { name = result.Name }, result);
                 else
-                    return BadRequest("Failed message");
+                    return BadRequest("Failed to add retrospective data");
+            }
+            catch (DuplicateItemException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to add retrospective data");
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Internal server error" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = $"Internal server error: {ex.Message}" });
             }
         }
 
-        [HttpGet("{date}")]
-        public async Task<ActionResult<RetrospectiveData>> Search(string date)
+        [HttpGet("Search")]
+        public async Task<ActionResult> Search(string date)
         {
             if (date == null)
                 return BadRequest("Invalid date");

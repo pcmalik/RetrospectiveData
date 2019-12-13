@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RetrospectiveDataApi</name>
+    </assembly>
+    <members>
+        <member name="T:RetrospectiveDataApi.Repositories.FileServiceRepository">
+            <summary>
+            
+            </summary>
+            <seealso cref="T:RetrospectiveDataApi.Repositories.Interfaces.IFileServiceRepository" />
+        </member>
+        <member name="M:RetrospectiveDataApi.Repositories.FileServiceRepository.GetRetrospectiveData(System.String)">
+            <summary>
+            Gets the retrospective data.
+            </summary>
+            <param name="filePath">The file path.</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
