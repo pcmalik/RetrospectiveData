@@ -42,9 +42,9 @@ namespace RetrospectiveDataApi.Repositories
                     retrospectiveDataList = JsonConvert.DeserializeObject<List<RetrospectiveData>>(json);
                 }
             }
-            catch (IOException ioEx)
+            catch (IOException ex)
             {
-                _logger.LogError(ioEx, "File related exception");
+                _logger.LogError(ex, "File related exception");
                 throw;
             }
             catch (Exception ex)
