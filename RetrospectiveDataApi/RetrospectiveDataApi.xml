@@ -4,13 +4,13 @@
         <name>RetrospectiveDataApi</name>
     </assembly>
     <members>
-        <member name="T:RetrospectiveDataApi.Repositories.FileServiceRepository">
+        <member name="T:RetrospectiveDataApi.Repositories.RetrospectiveDataRepository">
             <summary>
             
             </summary>
-            <seealso cref="T:RetrospectiveDataApi.Repositories.Interfaces.IFileServiceRepository" />
+            <seealso cref="T:RetrospectiveDataApi.Repositories.Interfaces.IRetrospectiveDataRepository" />
         </member>
-        <member name="M:RetrospectiveDataApi.Repositories.FileServiceRepository.GetRetrospectiveData(System.String)">
+        <member name="M:RetrospectiveDataApi.Repositories.RetrospectiveDataRepository.Get(System.String)">
             <summary>
             Gets the retrospective data.
             </summary>

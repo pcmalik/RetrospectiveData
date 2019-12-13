@@ -49,7 +49,7 @@ namespace RetrospectiveDataApi
             });
 
             //Add depenency injection below
-            services.AddScoped<IFileServiceRepository, FileServiceRepository>();
+            services.AddScoped<IRetrospectiveDataRepository, RetrospectiveDataRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

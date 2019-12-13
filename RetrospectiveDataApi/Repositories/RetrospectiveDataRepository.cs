@@ -14,12 +14,12 @@ namespace RetrospectiveDataApi.Repositories
     /// <summary>
     /// 
     /// </summary>
-    /// <seealso cref="IFileServiceRepository" />
-    public class FileServiceRepository : IFileServiceRepository
+    /// <seealso cref="IRetrospectiveDataRepository" />
+    public class RetrospectiveDataRepository : IRetrospectiveDataRepository
     {
-        private ILogger<FileServiceRepository> _logger;
+        private ILogger<RetrospectiveDataRepository> _logger;
 
-        public FileServiceRepository(ILogger<FileServiceRepository> logger)
+        public RetrospectiveDataRepository(ILogger<RetrospectiveDataRepository> logger)
         {
             _logger = logger;
         }
@@ -29,7 +29,7 @@ namespace RetrospectiveDataApi.Repositories
         /// </summary>
         /// <param name="filePath">The file path.</param>
         /// <returns></returns>
-        public async Task<IList<RetrospectiveData>> GetRetrospectiveData(string filePath)
+        public async Task<IList<RetrospectiveData>> Get(string filePath)
         {
             var retrospectiveDataList = new List<RetrospectiveData>();
             var file = Path.Combine(Directory.GetCurrentDirectory(), filePath);
@@ -56,11 +56,11 @@ namespace RetrospectiveDataApi.Repositories
             return retrospectiveDataList;
         }
 
-        public async Task<RetrospectiveData> AddRetrospectiveData(string filePath, RetrospectiveData retrospectiveData)
+        public async Task<RetrospectiveData> Add(string filePath, RetrospectiveData retrospectiveData)
         {
             try
             {
-                var retrospectiveDataList = GetRetrospectiveData(filePath).Result;
+                var retrospectiveDataList = Get(filePath).Result;
 
                 var itemExists = retrospectiveDataList.Any(x => x.Name == retrospectiveData.Name);
 

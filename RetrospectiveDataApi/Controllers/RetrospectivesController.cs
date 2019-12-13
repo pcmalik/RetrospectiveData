@@ -14,17 +14,19 @@ namespace RetrospectiveDataApi.Controllers
     [Route("api/[controller]")]
     public class RetrospectivesController : ControllerBase
     {
-        private readonly IFileServiceRepository _fileServiceRepository;
+        private readonly IRetrospectiveDataRepository _fileServiceRepository;
+        private readonly IConfiguration _configuration;
         private readonly string _filePath;
 
-        public RetrospectivesController(IFileServiceRepository fileServiceRepository, IConfiguration configuration)
+        public RetrospectivesController(IRetrospectiveDataRepository fileServiceRepository, IConfiguration configuration)
         {
-            _fileServiceRepository = fileServiceRepository;
+            _fileServiceRepository = fileServiceRepository??throw new ArgumentNullException("fileServiceRepository");
+            _configuration = configuration ?? throw new ArgumentNullException("configuration");
 
-            _filePath = configuration["FilePath"];
+            _filePath = _configuration["FilePath"];
 
             if (string.IsNullOrEmpty(_filePath))
-                throw new Exception("Please provide configuration filepath in appsettings.json");
+                throw new Exception("Please provide file location to save data in appsettings.json");
 
         }
 
@@ -33,7 +35,7 @@ namespace RetrospectiveDataApi.Controllers
         {
             try
             {
-                var retrospectiveDataList = await _fileServiceRepository.GetRetrospectiveData(_filePath);
+                var retrospectiveDataList = await _fileServiceRepository.Get(_filePath);
 
                 if (retrospectiveDataList != null)
                     return Ok(retrospectiveDataList);
@@ -55,7 +57,7 @@ namespace RetrospectiveDataApi.Controllers
 
             try
             {
-                var retrospectiveDataList = await _fileServiceRepository.GetRetrospectiveData(_filePath);
+                var retrospectiveDataList = await _fileServiceRepository.Get(_filePath);
                 var retrospectiveData = retrospectiveDataList?.FirstOrDefault(x => x.Name == name);
 
                 if (retrospectiveData != null)
@@ -80,7 +82,7 @@ namespace RetrospectiveDataApi.Controllers
 
             try
             {
-                var result = await _fileServiceRepository.AddRetrospectiveData(_filePath, retrospectiveData);
+                var result = await _fileServiceRepository.Add(_filePath, retrospectiveData);
 
                 if (result != null)
                     return CreatedAtAction($"Get", new { name = result.Name }, result);
@@ -104,7 +106,7 @@ namespace RetrospectiveDataApi.Controllers
                     return BadRequest("Invalid date value");
             try
             {
-                var retrospectiveDataList = await _fileServiceRepository.GetRetrospectiveData(_filePath);
+                var retrospectiveDataList = await _fileServiceRepository.Get(_filePath);
                 var retrospectiveData = retrospectiveDataList?.Where(x => x.Date == date);
 
                 if (retrospectiveData != null)
