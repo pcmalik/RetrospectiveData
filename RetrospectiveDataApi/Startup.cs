@@ -13,6 +13,7 @@ using NLog.Web;
 using NLog.LayoutRenderers;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
+using System.Text.Json.Serialization;
 
 namespace RetrospectiveDataApi
 {
@@ -28,7 +29,11 @@ namespace RetrospectiveDataApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                            .AddJsonOptions(x =>
+                            {
+                                x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                            });
 
             services.AddSwaggerGen(c =>
             {

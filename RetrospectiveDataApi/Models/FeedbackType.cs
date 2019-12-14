@@ -1,10 +1,14 @@
-﻿namespace RetrospectiveDataApi.Models
+﻿using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
+
+namespace RetrospectiveDataApi.Models
 {
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum FeedbackType
     {
-        Positive = 0,
-        Negative = 1,
-        Idea = 2
+        Positive,
+        Negative,
+        Idea
     }
 
 }

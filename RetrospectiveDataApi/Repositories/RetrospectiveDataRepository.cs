@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using RetrospectiveDataApi.Exceptions;
 using RetrospectiveDataApi.Models;
 using RetrospectiveDataApi.Repositories.Interfaces;
@@ -68,7 +69,7 @@ namespace RetrospectiveDataApi.Repositories
                     throw new RetrospectiveDataException("Insert failed as this retrospective item already exists");
 
                 retrospectiveDataList.Add(retrospectiveData);
-                var data = JsonConvert.SerializeObject(retrospectiveDataList);
+                var data = JsonConvert.SerializeObject(retrospectiveDataList, new StringEnumConverter());
 
                 using (FileStream stream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None, 4096, true))
                 using (StreamWriter sw = new StreamWriter(stream))
@@ -114,7 +115,7 @@ namespace RetrospectiveDataApi.Repositories
 
                 retrospectiveData.Feedback.Add(feedback);
 
-                var data = JsonConvert.SerializeObject(retrospectiveDataList);
+                var data = JsonConvert.SerializeObject(retrospectiveDataList, new StringEnumConverter());
                 using (FileStream stream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None, 4096, true))
                 using (StreamWriter sw = new StreamWriter(stream))
                 {

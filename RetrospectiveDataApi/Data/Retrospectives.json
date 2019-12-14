@@ -7,17 +7,17 @@
       {
         "Name": "Gareth",
         "Body": "Sprint objective met",
-        "FeedbackType": 0
+        "FeedbackType": "Positive"
       },
       {
         "Name": "Viktor",
         "Body": "Too many items piled up in the awaiting QA",
-        "FeedbackType": 1
+        "FeedbackType": "Negative"
       },
       {
         "Name": "Mike",
         "Body": "We should be looking to start using VS2015",
-        "FeedbackType": 2
+        "FeedbackType": "Idea"
       }
     ]
   },
@@ -29,17 +29,17 @@
       {
         "Name": "Gareth",
         "Body": "Sprint objective met",
-        "FeedbackType": 0
+        "FeedbackType": "Positive"
       },
       {
         "Name": "Viktor",
         "Body": "Too many items piled up in the awaiting QA",
-        "FeedbackType": 1
+        "FeedbackType": "Negative"
       },
       {
         "Name": "Mike",
         "Body": "We should be looking to start using VS2015",
-        "FeedbackType": 2
+        "FeedbackType": "Idea"
       }
     ]
   },
