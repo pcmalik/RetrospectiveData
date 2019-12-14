@@ -26,8 +26,9 @@ namespace RetrospectiveDataApi.Controllers
 
             _filePath = _configuration["FilePath"];
 
+            //File configured in appsettings.json serves as the data source for this api
             if (string.IsNullOrEmpty(_filePath))
-                throw new Exception("Please provide file location to save data in appsettings.json");
+                throw new Exception("Please make sure json file configured in appsettings.json exists in the specified folder location");
 
         }
 

@@ -27,11 +27,15 @@ namespace RetrospectiveDataApi.Controllers
 
             _filePath = _configuration["FilePath"];
 
+            //File configured in appsettings.json serves as the data source for this api
             if (string.IsNullOrEmpty(_filePath))
-                throw new Exception("Please provide file location to save data in appsettings.json");
+                throw new Exception("Please make sure json file configured in appsettings.json exists in the specified folder location");
 
         }
 
+        #region public methods
+
+        //GET: api/Retrospectives
         [HttpGet]
         public async Task<ActionResult> Get()
         {
@@ -51,6 +55,7 @@ namespace RetrospectiveDataApi.Controllers
             }
         }
 
+        //GET: /api/Retrospectives/{name}
         [HttpGet("{name}")]
         public async Task<ActionResult> Get(string name)
         {
@@ -76,6 +81,7 @@ namespace RetrospectiveDataApi.Controllers
             }
         }
 
+        //POST: /api/Retrospectives
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] RetrospectiveDataModel retrospectiveDataModel)
         {
@@ -103,21 +109,7 @@ namespace RetrospectiveDataApi.Controllers
             }
         }
 
-        private static RetrospectiveData ConvertModelToEntity(RetrospectiveDataModel retrospectiveDataModel)
-        {
-            DateTime retroDate;
-            if (!DateTime.TryParse(retrospectiveDataModel.Date, out retroDate))
-                throw new RetrospectiveDataException(DATE_VALIDATION_MESSAGE);
-
-            return new RetrospectiveData()
-            {
-                Name = retrospectiveDataModel.Name,
-                Summary = retrospectiveDataModel.Summary,
-                Date = retroDate,
-                Participants = retrospectiveDataModel.Participants
-            };
-        }
-
+        //GET: /api/Retrospectives/Filter
         [HttpGet("Filter")]
         public async Task<ActionResult> Filter(string date)
         {
@@ -147,7 +139,23 @@ namespace RetrospectiveDataApi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = $"Internal server error: {ex.Message}" });
             }
         }
+        #endregion
 
+        #region private methods
+        private static RetrospectiveData ConvertModelToEntity(RetrospectiveDataModel retrospectiveDataModel)
+        {
+            DateTime retroDate;
+            if (!DateTime.TryParse(retrospectiveDataModel.Date, out retroDate))
+                throw new RetrospectiveDataException(DATE_VALIDATION_MESSAGE);
 
+            return new RetrospectiveData()
+            {
+                Name = retrospectiveDataModel.Name,
+                Summary = retrospectiveDataModel.Summary,
+                Date = retroDate,
+                Participants = retrospectiveDataModel.Participants
+            };
+        }
+        #endregion
     }
 }
