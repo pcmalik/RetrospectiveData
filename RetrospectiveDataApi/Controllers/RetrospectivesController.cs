@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using RetrospectiveDataApi.Entities;
 using RetrospectiveDataApi.Exceptions;
 using RetrospectiveDataApi.Models;
 using RetrospectiveDataApi.Repositories.Interfaces;
@@ -14,6 +15,7 @@ namespace RetrospectiveDataApi.Controllers
     [Route("api/[controller]")]
     public class RetrospectivesController : ControllerBase
     {
+        private const string DATE_VALIDATION_MESSAGE = "Please specify valid date value in dd-mm-yyyy format";
         private readonly IRetrospectiveDataRepository _retrospectiveDataRepository;
         private readonly IConfiguration _configuration;
         private readonly string _filePath;
@@ -75,13 +77,15 @@ namespace RetrospectiveDataApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] RetrospectiveData retrospectiveData)
+        public async Task<ActionResult> Post([FromBody] RetrospectiveDataModel retrospectiveDataModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest("Invalid retrospective data");
 
             try
             {
+                RetrospectiveData retrospectiveData = ConvertModelToEntity(retrospectiveDataModel);
+
                 var result = await _retrospectiveDataRepository.Add(_filePath, retrospectiveData);
 
                 if (result != null)
@@ -99,13 +103,32 @@ namespace RetrospectiveDataApi.Controllers
             }
         }
 
-        [HttpGet("Search")]
-        public async Task<ActionResult> Search(DateTime date)
+        private static RetrospectiveData ConvertModelToEntity(RetrospectiveDataModel retrospectiveDataModel)
+        {
+            DateTime retroDate;
+            if (!DateTime.TryParse(retrospectiveDataModel.Date, out retroDate))
+                throw new RetrospectiveDataException(DATE_VALIDATION_MESSAGE);
+
+            return new RetrospectiveData()
+            {
+                Name = retrospectiveDataModel.Name,
+                Summary = retrospectiveDataModel.Summary,
+                Date = retroDate,
+                Participants = retrospectiveDataModel.Participants
+            };
+        }
+
+        [HttpGet("Filter")]
+        public async Task<ActionResult> Filter(string date)
         {
             try
             {
+                DateTime retroDate;
+                if (!DateTime.TryParse(date, out retroDate))
+                    throw new RetrospectiveDataException(DATE_VALIDATION_MESSAGE);
+
                 var retrospectiveDataList = await _retrospectiveDataRepository.Get(_filePath);
-                var result = retrospectiveDataList?.Where(x => x.Date == date.Date);
+                var result = retrospectiveDataList?.Where(x => x.Date == retroDate);
 
                 if (result != null && result.Count() > 0)
                 {
@@ -114,6 +137,10 @@ namespace RetrospectiveDataApi.Controllers
                 else
                     return NoContent();
 
+            }
+            catch (RetrospectiveDataException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
