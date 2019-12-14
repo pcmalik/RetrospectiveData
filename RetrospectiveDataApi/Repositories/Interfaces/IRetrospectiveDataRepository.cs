@@ -1,4 +1,4 @@
-﻿using RetrospectiveDataApi.Entities;
+﻿using RetrospectiveDataApi.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

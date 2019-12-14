@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using RetrospectiveDataApi.Entities;
 using RetrospectiveDataApi.Exceptions;
+using RetrospectiveDataApi.Models;
 using RetrospectiveDataApi.Repositories.Interfaces;
 
 namespace RetrospectiveDataApi.Controllers

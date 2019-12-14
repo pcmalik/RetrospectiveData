@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using RetrospectiveDataApi.Entities;
 using RetrospectiveDataApi.Exceptions;
+using RetrospectiveDataApi.Models;
 using RetrospectiveDataApi.Repositories.Interfaces;
 
 namespace RetrospectiveDataApi.Repositories
