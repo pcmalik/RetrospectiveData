@@ -3,6 +3,7 @@
     "Name": "Retrospective1",
     "Summary": "Post release retrospective",
     "Date": "27/07/2016",
+    "Participants": [ "Gareth", "Viktor", "Mike" ],
     "Feedback": [
       {
         "Name": "Gareth",
@@ -25,20 +26,21 @@
     "Name": "Retrospective2",
     "Summary": "Post release retrospective2",
     "Date": "27/07/2016",
+    "Participants": [ "John", "Mandy", "Emma" ],
     "Feedback": [
       {
-        "Name": "Gareth",
+        "Name": "John",
         "Body": "Sprint objective met",
         "FeedbackType": "Positive"
       },
       {
-        "Name": "Viktor",
-        "Body": "Too many items piled up in the awaiting QA",
+        "Name": "Mandy",
+        "Body": "Daily standup is running more than 15 minutes",
         "FeedbackType": "Negative"
       },
       {
-        "Name": "Mike",
-        "Body": "We should be looking to start using VS2015",
+        "Name": "Emma",
+        "Body": "We should use asynchronous methods in our API's where possible to make efficient use of threadpool",
         "FeedbackType": "Idea"
       }
     ]
@@ -46,7 +48,8 @@
   {
     "Name": "Retrospective3",
     "Summary": "Post release retrospective2",
-    "Date": "27/07/2016",
+    "Date": "01/01/2019",
+    "Participants": null,
     "Feedback": null
   }
 ]
