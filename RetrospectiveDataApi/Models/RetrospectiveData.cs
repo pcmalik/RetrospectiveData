@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace RetrospectiveDataApi.Models
@@ -8,7 +9,7 @@ namespace RetrospectiveDataApi.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "Please specify retrospective name")]
         public string Name { get; set; }
         public string Summary { get; set; }
-        public string Date { get; set; } //pmalik - todo: change it to datetime
+        public DateTime Date { get; set; }
         public IList<Feedback> Feedback { get; set; }
 
     }

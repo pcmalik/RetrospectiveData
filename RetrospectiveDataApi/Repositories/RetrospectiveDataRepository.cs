@@ -19,10 +19,12 @@ namespace RetrospectiveDataApi.Repositories
     public class RetrospectiveDataRepository : IRetrospectiveDataRepository
     {
         private ILogger<RetrospectiveDataRepository> _logger;
+        private readonly IsoDateTimeConverter _jsonDateTimeConverter;
 
         public RetrospectiveDataRepository(ILogger<RetrospectiveDataRepository> logger)
         {
             _logger = logger;
+            _jsonDateTimeConverter = new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" };
         }
 
         /// <summary>
@@ -40,7 +42,8 @@ namespace RetrospectiveDataApi.Repositories
                 using (StreamReader sr = new StreamReader(file))
                 {
                     string json = await sr.ReadToEndAsync();
-                    retrospectiveDataList = JsonConvert.DeserializeObject<List<RetrospectiveData>>(json);
+                    
+                    retrospectiveDataList = JsonConvert.DeserializeObject<List<RetrospectiveData>>(json, _jsonDateTimeConverter);
                 }
             }
             catch (IOException ex)
@@ -69,7 +72,7 @@ namespace RetrospectiveDataApi.Repositories
                     throw new RetrospectiveDataException("Insert failed as this retrospective item already exists");
 
                 retrospectiveDataList.Add(retrospectiveData);
-                var data = JsonConvert.SerializeObject(retrospectiveDataList, new StringEnumConverter());
+                var data = JsonConvert.SerializeObject(retrospectiveDataList, new StringEnumConverter(), _jsonDateTimeConverter);
 
                 using (FileStream stream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None, 4096, true))
                 using (StreamWriter sw = new StreamWriter(stream))
@@ -115,7 +118,7 @@ namespace RetrospectiveDataApi.Repositories
 
                 retrospectiveData.Feedback.Add(feedback);
 
-                var data = JsonConvert.SerializeObject(retrospectiveDataList, new StringEnumConverter());
+                var data = JsonConvert.SerializeObject(retrospectiveDataList, new StringEnumConverter(), _jsonDateTimeConverter);
                 using (FileStream stream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None, 4096, true))
                 using (StreamWriter sw = new StreamWriter(stream))
                 {

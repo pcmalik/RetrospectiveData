@@ -100,18 +100,16 @@ namespace RetrospectiveDataApi.Controllers
         }
 
         [HttpGet("Search")]
-        public async Task<ActionResult> Search(string date)
+        public async Task<ActionResult> Search(DateTime date)
         {
-            if (string.IsNullOrEmpty(date))
-                    return BadRequest("Invalid date value");
             try
             {
                 var retrospectiveDataList = await _retrospectiveDataRepository.Get(_filePath);
-                var retrospectiveData = retrospectiveDataList?.Where(x => x.Date == date);
+                var result = retrospectiveDataList?.Where(x => x.Date == date.Date);
 
-                if (retrospectiveData != null)
+                if (result != null && result.Count() > 0)
                 {
-                    return Ok(retrospectiveData);
+                    return Ok(result);
                 }
                 else
                     return NoContent();
