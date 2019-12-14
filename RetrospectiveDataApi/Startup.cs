@@ -31,7 +31,15 @@ namespace RetrospectiveDataApi
             {
                 options.ReturnHttpNotAcceptable = true;
                 options.OutputFormatters.Add(new XmlSerializerOutputFormatter());
-            }).AddXmlDataContractSerializerFormatters(); 
+            }).AddXmlDataContractSerializerFormatters();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("EnableCORS", builder =>
+                {
+                    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().Build();
+                });
+            });
 
             services.AddControllers()
                             .AddJsonOptions(x =>
@@ -66,6 +74,8 @@ namespace RetrospectiveDataApi
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors("EnableCORS");
 
             app.UseHttpsRedirection();
 
