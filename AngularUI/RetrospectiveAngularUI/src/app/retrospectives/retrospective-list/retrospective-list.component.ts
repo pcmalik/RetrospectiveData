@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RetrospectiveService } from 'src/app/shared/retrospective.service';
 
 @Component({
   selector: 'app-retrospective-list',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RetrospectiveListComponent implements OnInit {
 
-  constructor() { }
+  constructor(private service : RetrospectiveService) { }
 
   ngOnInit() {
+    this.service.refreshList();
   }
 
 }

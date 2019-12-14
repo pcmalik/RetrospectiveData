@@ -1,6 +1,6 @@
 export class Retrospective {
-     Name: string;
-     Summary: string;
-     Date: string;
-     Participants: string[];  
+     name: string;
+     summary: string;
+     date: string;
+     participants: string[];  
 }

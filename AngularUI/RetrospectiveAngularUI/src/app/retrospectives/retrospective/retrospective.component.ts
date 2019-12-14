@@ -20,10 +20,10 @@ export class RetrospectiveComponent implements OnInit {
       form.resetForm();
 
     this.service.formData = {
-      Name: '',
-      Summary: '',
-      Date: '',
-      Participants: null
+      name: '',
+      summary: '',
+      date: '',
+      participants: null
     }
   }
 
@@ -33,6 +33,7 @@ export class RetrospectiveComponent implements OnInit {
 
   insertRecord(form: NgForm){
       this.service.postRetrospective(form.value).subscribe(res =>{
+        alert("Inserted retrospective data successfully...");
         this.resetForm(form);
       });
   }
