@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Converters;
 using System.Text.Json.Serialization;
 
-namespace RetrospectiveDataApi.Models
+namespace RetrospectiveDataApi.Entities
 {
     [JsonConverter(typeof(StringEnumConverter))]
     public enum FeedbackType

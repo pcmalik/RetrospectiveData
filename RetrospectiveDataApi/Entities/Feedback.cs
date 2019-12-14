@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RetrospectiveDataApi.Models
+namespace RetrospectiveDataApi.Entities
 {
     public class Feedback
     {

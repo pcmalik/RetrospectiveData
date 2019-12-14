@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace RetrospectiveDataApi.Models
+namespace RetrospectiveDataApi.Entities
 {
     public class RetrospectiveData
     {
