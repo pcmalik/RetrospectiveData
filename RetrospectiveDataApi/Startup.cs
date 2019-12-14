@@ -9,11 +9,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using RetrospectiveDataApi.Repositories;
 using RetrospectiveDataApi.Repositories.Interfaces;
-using NLog.Web;
 using NLog.LayoutRenderers;
-using Microsoft.Extensions.Logging;
-using NLog.Extensions.Logging;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace RetrospectiveDataApi
 {
@@ -29,6 +27,12 @@ namespace RetrospectiveDataApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc(options =>
+            {
+                options.ReturnHttpNotAcceptable = true;
+                options.OutputFormatters.Add(new XmlSerializerOutputFormatter());
+            }).AddXmlDataContractSerializerFormatters(); 
+
             services.AddControllers()
                             .AddJsonOptions(x =>
                             {

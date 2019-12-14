@@ -65,7 +65,7 @@ namespace RetrospectiveDataApi.Controllers
             try
             {
                 var retrospectiveDataList = await _retrospectiveDataRepository.Get(_filePath);
-                var retrospectiveData = retrospectiveDataList?.FirstOrDefault(x => x.Name == name);
+                var retrospectiveData = retrospectiveDataList?.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
 
                 if (retrospectiveData != null)
                 {
@@ -120,7 +120,7 @@ namespace RetrospectiveDataApi.Controllers
                     throw new RetrospectiveDataException(DATE_VALIDATION_MESSAGE);
 
                 var retrospectiveDataList = await _retrospectiveDataRepository.Get(_filePath);
-                var result = retrospectiveDataList?.Where(x => x.Date == retroDate);
+                var result = retrospectiveDataList?.Where(x => x.Date == retroDate).ToList();
 
                 if (result != null && result.Count() > 0)
                 {
