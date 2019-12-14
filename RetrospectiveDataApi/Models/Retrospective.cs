@@ -1,17 +1,16 @@
-﻿using RetrospectiveDataApi.Entities;
-using System;
+﻿using RetrospectiveDataApi.Common;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace RetrospectiveDataApi.Models
 {
-    public class RetrospectiveDataModel
+    public class Retrospective
     {
         [Required(AllowEmptyStrings = false, ErrorMessage = "Please specify retrospective name")]
         public string Name { get; set; }
         public string Summary { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Please specify valid date value in dd-mm-yyyy format")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = RetrospectiveConstants.DATE_VALIDATION_MESSAGE)]
         [DataType(DataType.Date)]
         public string Date { get; set; }
 

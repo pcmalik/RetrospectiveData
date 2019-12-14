@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using RetrospectiveDataApi.Entities;
 using RetrospectiveDataApi.Exceptions;
 using RetrospectiveDataApi.Models;
 using RetrospectiveDataApi.Repositories.Interfaces;
@@ -33,9 +32,9 @@ namespace RetrospectiveDataApi.Repositories
         /// </summary>
         /// <param name="filePath">The file path.</param>
         /// <returns></returns>
-        public async Task<IList<RetrospectiveData>> Get(string filePath)
+        public async Task<IList<RetrospectiveFeedback>> Get(string filePath)
         {
-            var retrospectiveDataList = new List<RetrospectiveData>();
+            var retrospectiveDataList = new List<RetrospectiveFeedback>();
             var file = Path.Combine(Directory.GetCurrentDirectory(), filePath);
 
             try
@@ -44,7 +43,7 @@ namespace RetrospectiveDataApi.Repositories
                 {
                     string json = await sr.ReadToEndAsync();
                     
-                    retrospectiveDataList = JsonConvert.DeserializeObject<List<RetrospectiveData>>(json, _jsonDateTimeConverter);
+                    retrospectiveDataList = JsonConvert.DeserializeObject<List<RetrospectiveFeedback>>(json, _jsonDateTimeConverter);
                 }
             }
             catch (IOException ex)
@@ -61,15 +60,15 @@ namespace RetrospectiveDataApi.Repositories
             return retrospectiveDataList;
         }
 
-        public async Task<RetrospectiveData> Add(string filePath, RetrospectiveData retrospectiveData)
+        public async Task<RetrospectiveFeedback> Add(string filePath, RetrospectiveFeedback retrospectiveData)
         {
             try
             {
                 var retrospectiveDataList = Get(filePath).Result;
 
-                var itemExists = retrospectiveDataList.Any(x => x.Name.Equals(retrospectiveData.Name, StringComparison.OrdinalIgnoreCase));
+                var itemExists = retrospectiveDataList?.Any(x => x.Name.Equals(retrospectiveData.Name, StringComparison.OrdinalIgnoreCase));
 
-                if (itemExists)
+                if (itemExists.HasValue && itemExists.Equals(true))
                     throw new RetrospectiveDataException("Insert failed as this retrospective item already exists");
 
                 retrospectiveDataList.Add(retrospectiveData);
@@ -102,7 +101,7 @@ namespace RetrospectiveDataApi.Repositories
 
         public async Task<Feedback> Add(string filePath, string retrospectiveName, Feedback feedback)
         {
-            RetrospectiveData retrospectiveData;
+            RetrospectiveFeedback retrospectiveData;
             try
             {
                 var retrospectiveDataList = Get(filePath).Result;
@@ -112,10 +111,13 @@ namespace RetrospectiveDataApi.Repositories
                 if (retrospectiveData == null)
                     throw new RetrospectiveDataException("Cannot insert feedback as the retrospective item don't exist");
 
-                var itemExists = retrospectiveData.Feedback.Any(x => x.Name.Equals(feedback.Name, StringComparison.OrdinalIgnoreCase));
+                var itemExists = retrospectiveData?.Feedback?.Any(x => x.Name.Equals(feedback.Name, StringComparison.OrdinalIgnoreCase));
 
-                if (itemExists)
+                if (itemExists.HasValue && itemExists.Equals(true))
                     throw new RetrospectiveDataException("Insert failed as feedback is already provided by this customer");
+
+                if (retrospectiveData.Feedback == null)
+                    retrospectiveData.Feedback = new List<Feedback>();
 
                 retrospectiveData.Feedback.Add(feedback);
 

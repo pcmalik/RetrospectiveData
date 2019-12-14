@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using RetrospectiveDataApi.Entities;
+using RetrospectiveDataApi.Common;
 using RetrospectiveDataApi.Exceptions;
 using RetrospectiveDataApi.Models;
 using RetrospectiveDataApi.Repositories.Interfaces;
@@ -15,7 +15,6 @@ namespace RetrospectiveDataApi.Controllers
     [Route("api/[controller]")]
     public class RetrospectivesController : ControllerBase
     {
-        private const string DATE_VALIDATION_MESSAGE = "Please specify valid date value in dd-mm-yyyy format";
         private readonly IRetrospectiveDataRepository _retrospectiveDataRepository;
         private readonly IConfiguration _configuration;
         private readonly string _filePath;
@@ -83,14 +82,14 @@ namespace RetrospectiveDataApi.Controllers
 
         //POST: /api/Retrospectives
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] RetrospectiveDataModel retrospectiveDataModel)
+        public async Task<ActionResult> Post([FromBody] Retrospective retrospectiveDataModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest("Invalid retrospective data");
 
             try
             {
-                RetrospectiveData retrospectiveData = ConvertModelToEntity(retrospectiveDataModel);
+                var retrospectiveData = ConvertModelToEntity(retrospectiveDataModel);
 
                 var result = await _retrospectiveDataRepository.Add(_filePath, retrospectiveData);
 
@@ -117,7 +116,7 @@ namespace RetrospectiveDataApi.Controllers
             {
                 DateTime retroDate;
                 if (!DateTime.TryParse(date, out retroDate))
-                    throw new RetrospectiveDataException(DATE_VALIDATION_MESSAGE);
+                    throw new RetrospectiveDataException(RetrospectiveConstants.DATE_VALIDATION_MESSAGE);
 
                 var retrospectiveDataList = await _retrospectiveDataRepository.Get(_filePath);
                 var result = retrospectiveDataList?.Where(x => x.Date == retroDate).ToList();
@@ -142,13 +141,13 @@ namespace RetrospectiveDataApi.Controllers
         #endregion
 
         #region private methods
-        private static RetrospectiveData ConvertModelToEntity(RetrospectiveDataModel retrospectiveDataModel)
+        private static RetrospectiveFeedback ConvertModelToEntity(Retrospective retrospectiveDataModel)
         {
             DateTime retroDate;
             if (!DateTime.TryParse(retrospectiveDataModel.Date, out retroDate))
-                throw new RetrospectiveDataException(DATE_VALIDATION_MESSAGE);
+                throw new RetrospectiveDataException(RetrospectiveConstants.DATE_VALIDATION_MESSAGE);
 
-            return new RetrospectiveData()
+            return new RetrospectiveFeedback()
             {
                 Name = retrospectiveDataModel.Name,
                 Summary = retrospectiveDataModel.Summary,
