@@ -1,20 +1,18 @@
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using RetrospectiveDataApi.Repositories;
 using RetrospectiveDataApi.Repositories.Interfaces;
+using NLog.Web;
+using NLog.LayoutRenderers;
+using Microsoft.Extensions.Logging;
+using NLog.Extensions.Logging;
 
 namespace RetrospectiveDataApi
 {
@@ -77,6 +75,8 @@ namespace RetrospectiveDataApi
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Retrospectives API V1");
             });
 
+            //map basedir from NLog.config file to root path of application folder
+            LayoutRenderer.Register("basedir", (logEvent) => env.ContentRootPath);
         }
     }
 }
