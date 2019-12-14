@@ -4,6 +4,12 @@
         <name>RetrospectiveDataApi</name>
     </assembly>
     <members>
+        <member name="T:RetrospectiveDataApi.Exceptions.RetrospectiveDataException">
+            <summary>
+            Instance of RetrospectiveDataException will be returned to client in case of bad request - i.e 400 error code
+            whereas instance of Exception will be returned to client in case of internal server error - i.e 500 erro code
+            </summary>
+        </member>
         <member name="T:RetrospectiveDataApi.Repositories.RetrospectiveDataRepository">
             <summary>
             

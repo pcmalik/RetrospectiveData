@@ -8,5 +8,6 @@ namespace RetrospectiveDataApi.Repositories.Interfaces
     {
         Task<IList<RetrospectiveData>> Get(string filePath);
         Task<RetrospectiveData> Add(string filePath, RetrospectiveData retrospectiveData);
+        Task<Feedback> Add(string filePath, string retrospectiveName, Feedback feedback);
     }
 }

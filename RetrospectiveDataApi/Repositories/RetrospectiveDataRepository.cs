@@ -62,10 +62,10 @@ namespace RetrospectiveDataApi.Repositories
             {
                 var retrospectiveDataList = Get(filePath).Result;
 
-                var itemExists = retrospectiveDataList.Any(x => x.Name == retrospectiveData.Name);
+                var itemExists = retrospectiveDataList.Any(x => x.Name.Equals(retrospectiveData.Name, StringComparison.OrdinalIgnoreCase));
 
                 if (itemExists)
-                    throw new DuplicateItemException("Insert failed as this retrospective item already exists");
+                    throw new RetrospectiveDataException("Insert failed as this retrospective item already exists");
 
                 retrospectiveDataList.Add(retrospectiveData);
                 var data = JsonConvert.SerializeObject(retrospectiveDataList);
@@ -76,7 +76,7 @@ namespace RetrospectiveDataApi.Repositories
                     await sw.WriteLineAsync(data);
                 }
             }
-            catch (DuplicateItemException ex)
+            catch (RetrospectiveDataException ex)
             {
                 _logger.LogError(ex, ex.Message);
                 throw;
@@ -88,12 +88,56 @@ namespace RetrospectiveDataApi.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "General exception");
+                _logger.LogError(ex, ex.Message);
                 throw;
             }
 
             return retrospectiveData;
         }
 
+        public async Task<Feedback> Add(string filePath, string retrospectiveName, Feedback feedback)
+        {
+            RetrospectiveData retrospectiveData;
+            try
+            {
+                var retrospectiveDataList = Get(filePath).Result;
+
+                retrospectiveData = retrospectiveDataList.FirstOrDefault(x => x.Name.Equals(retrospectiveName, StringComparison.OrdinalIgnoreCase));
+
+                if (retrospectiveData == null)
+                    throw new RetrospectiveDataException("Cannot insert feedback as the retrospective item don't exist");
+
+                var itemExists = retrospectiveData.Feedback.Any(x => x.Name.Equals(feedback.Name, StringComparison.OrdinalIgnoreCase));
+
+                if (itemExists)
+                    throw new RetrospectiveDataException("Insert failed as feedback is already provided by this customer");
+
+                retrospectiveData.Feedback.Add(feedback);
+
+                var data = JsonConvert.SerializeObject(retrospectiveDataList);
+                using (FileStream stream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None, 4096, true))
+                using (StreamWriter sw = new StreamWriter(stream))
+                {
+                    await sw.WriteLineAsync(data);
+                }
+            }
+            catch (RetrospectiveDataException ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
+            catch (IOException ex)
+            {
+                _logger.LogError(ex, "File related exception");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
+
+            return feedback;
+        }
     }
 }

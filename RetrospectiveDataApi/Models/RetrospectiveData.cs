@@ -5,7 +5,7 @@ namespace RetrospectiveDataApi.Models
 {
     public class RetrospectiveData
     {
-        [Required]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Please specify retrospective name")]
         public string Name { get; set; }
         public string Summary { get; set; }
         public string Date { get; set; } //pmalik - todo: change it to datetime

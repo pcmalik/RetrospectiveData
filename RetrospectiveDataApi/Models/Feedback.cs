@@ -4,7 +4,7 @@ namespace RetrospectiveDataApi.Models
 {
     public class Feedback
     {
-        [Required]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Please specify feedback name")]
         public string Name { get; set; }
         public string Body { get; set; }
         public FeedbackType FeedbackType { get; set; }
