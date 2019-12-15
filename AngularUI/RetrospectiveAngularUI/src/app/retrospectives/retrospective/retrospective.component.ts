@@ -19,11 +19,12 @@ export class RetrospectiveComponent implements OnInit {
     if (form != null)
       form.resetForm();
 
-    this.service.formData = {
+    this.service.retrospectiveFormData = {
       name: '',
       summary: '',
       date: '',
-      participants: null
+      participants: null,
+      feedback: null
     }
   }
 

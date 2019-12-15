@@ -1,21 +1,31 @@
 import { Injectable } from '@angular/core';
 import { Retrospective } from './retrospective.model';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Feedback } from './feedback.model';
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json'})
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class RetrospectiveService {
 
-  formData: Retrospective;
+  retrospectiveFormData: Retrospective;
   retrospectiveList: Retrospective[];
+  feedbackFormData: Feedback;
 
   baseUrl:string = "https://localhost:44387/api";
   
   constructor(private http: HttpClient) { }
 
-  postRetrospective(formData: Retrospective){
-    return this.http.post(this.baseUrl+"/Retrospectives", formData);
+  postRetrospective(retrospectiveFormData: Retrospective){
+    return this.http.post(this.baseUrl+"/Retrospectives", retrospectiveFormData);
+  }
+
+  postFeedback(retrospectiveName: string, feedbackFormData: Feedback){
+    return this.http.post(this.baseUrl+"/Retrospectives/"+retrospectiveName+"/Feedbacks", feedbackFormData, httpOptions);
   }
 
   refreshList(){

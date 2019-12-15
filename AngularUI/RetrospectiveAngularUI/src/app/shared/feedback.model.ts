@@ -1,5 +1,5 @@
 export class Feedback {
      name: string;
-     boddy: string;
+     body: string;
      feedbackType: string;
 }
