@@ -59,7 +59,7 @@ export class FeedbackComponent implements OnInit {
                 this.resetForm(form);
               },
         err =>{
-                alert("Failed:"+ (err as HttpErrorResponse).error);
+                alert((err as HttpErrorResponse).error);
               } );
   }
 

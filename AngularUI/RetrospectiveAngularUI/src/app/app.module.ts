@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
@@ -9,6 +9,8 @@ import { RetrospectiveListComponent } from './retrospectives/retrospective-list/
 import { RetrospectiveService } from './shared/retrospective.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FeedbackComponent } from './feedback/feedback.component';
+import { MatDatepickerModule, MatNativeDateModule, MatInputModule, MAT_DATE_LOCALE } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -21,9 +23,13 @@ import { FeedbackComponent } from './feedback/feedback.component';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule,
+    BrowserAnimationsModule
   ],
-  providers: [RetrospectiveService],
+  providers: [RetrospectiveService, { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
