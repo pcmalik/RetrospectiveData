@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RetrospectiveService } from 'src/app/shared/retrospective.service';
 import { NgForm } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-retrospective',
@@ -8,6 +9,7 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./retrospective.component.css']
 })
 export class RetrospectiveComponent implements OnInit {
+  participants: string;
 
   constructor(private service: RetrospectiveService) { }
 
@@ -33,10 +35,19 @@ export class RetrospectiveComponent implements OnInit {
   }
 
   insertRecord(form: NgForm){
-      this.service.postRetrospective(form.value).subscribe(res =>{
-        alert("Inserted retrospective data successfully...");
-        this.resetForm(form);
-      });
+    
+      this.service.retrospectiveFormData.participants = this.participants.split(",");
+
+      this.service.postRetrospective(this.service.retrospectiveFormData).subscribe(
+      res =>{
+              alert("Inserted retrospective data successfully...");
+              this.resetForm(form);
+              this.service.refreshList();
+            },
+      err =>{
+              alert((err as HttpErrorResponse).error);
+            });
+
   }
 
 }

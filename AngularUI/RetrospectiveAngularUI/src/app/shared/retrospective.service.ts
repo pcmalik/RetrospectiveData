@@ -28,8 +28,7 @@ export class RetrospectiveService {
     return this.http.post(this.baseUrl+"/Retrospectives/"+retrospectiveName+"/Feedbacks", feedbackFormData, httpOptions);
   }
 
-  refreshList(){
-   
+  refreshList(){   
     this.http.get(this.baseUrl+"/Retrospectives")
       .toPromise().then(res => this.retrospectiveList = res as Retrospective[]);
   }

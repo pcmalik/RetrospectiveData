@@ -13,13 +13,20 @@
     <div class="form-group">
         <label>Date: </label>
         <mat-form-field>
-            <input name="retroDate" #retroDate = "ngModel" [(ngModel)]="service.retrospectiveFormData.date" class="form-control form-control-sm" 
+            <input name="RetroDate" #RetroDate = "ngModel" [(ngModel)]="service.retrospectiveFormData.date" class="form-control form-control-sm" 
                                required matInput [matDatepicker]="picker" type="text" readonly>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
-        <div class="validation-error" *ngIf="retroDate.invalid">This field is required</div>
+        <div class="validation-error" *ngIf="RetroDate.invalid">This field is required</div>
      </div>
+
+     <div class="form-group">
+        <label>Participants</label>
+        <input name="Participants" #Participants = "ngModel" [(ngModel)]="participants" class="form-control form-control-sm" placeholder="Comma seperated names" required>
+        <div class="validation-error" *ngIf="Participants.invalid">This field is required</div>
+    </div>
+
     <div class="form-group">
         <button type="submit" [disabled]="form.invalid" class="btn btn-sm btn-block" false>Add Retrospective</button>
     </div>
