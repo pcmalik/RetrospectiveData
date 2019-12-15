@@ -8,13 +8,15 @@ import { RetrospectiveComponent } from './retrospectives/retrospective/retrospec
 import { RetrospectiveListComponent } from './retrospectives/retrospective-list/retrospective-list.component';
 import { RetrospectiveService } from './shared/retrospective.service';
 import { HttpClientModule } from '@angular/common/http';
+import { FeedbackComponent } from './feedback/feedback.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RetrospectivesComponent,
     RetrospectiveComponent,
-    RetrospectiveListComponent
+    RetrospectiveListComponent,
+    FeedbackComponent
   ],
   imports: [
     BrowserModule,

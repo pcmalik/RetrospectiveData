@@ -19,6 +19,7 @@ export class RetrospectiveService {
   }
 
   refreshList(){
+   
     this.http.get(this.baseUrl+"/Retrospectives")
       .toPromise().then(res => this.retrospectiveList = res as Retrospective[]);
   }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RetrospectiveService } from 'src/app/shared/retrospective.service';
+import { Retrospective } from 'src/app/shared/retrospective.model';
 
 @Component({
   selector: 'app-retrospective-list',
