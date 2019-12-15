@@ -1,23 +1,23 @@
 <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
     <div class="form-group">
         <label>Retrospective Name</label>
-        <input name="Name" #Name = "ngModel" [(ngModel)]="service.formData.name" class="form-control" required>
+        <input name="Name" #Name = "ngModel" [(ngModel)]="service.formData.name" class="form-control form-control-sm" required>
         <div class="validation-error" *ngIf="Name.invalid">This field is required</div>
     </div>
 
     <div class="form-group">
         <label>Sumarry</label>
-        <input name="Summary" #Summary = "ngModel" [(ngModel)]="service.formData.summary" class="form-control">
+        <input name="Summary" #Summary = "ngModel" [(ngModel)]="service.formData.summary" class="form-control form-control-sm">
     </div>
 
     <div class="form-group">
         <label>Date</label>
-        <input name="Date" #Date = "ngModel" [(ngModel)]="service.formData.date" class="form-control" required>
+        <input name="Date" #Date = "ngModel" [(ngModel)]="service.formData.date" class="form-control form-control-sm" required>
         <div class="validation-error" *ngIf="Date.invalid">This field is required</div>
     </div>
 
     <div class="form-group">
-        <button type="submit" [disabled]="form.invalid" class="btn btn-lg btn-block" false>Create</button>
+        <button type="submit" [disabled]="form.invalid" class="btn btn-sm btn-block" false>Create</button>
     </div>
 </form>
 
