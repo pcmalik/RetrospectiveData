@@ -44,12 +44,5 @@
         "FeedbackType": "Idea"
       }
     ]
-  },
-  {
-    "Name": "Retrospective3",
-    "Summary": "Post release retrospective2",
-    "Date": "16/12/2019",
-    "Participants": [ "Lee", "Dave", "Ross" ],
-    "Feedback": null
   }
 ]
