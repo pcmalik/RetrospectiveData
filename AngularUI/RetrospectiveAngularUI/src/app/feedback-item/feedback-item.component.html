@@ -4,7 +4,7 @@
     <div class="form-row">
         <div class="form-group  col-md-3">
             <label>Name</label>
-            <select required name="Name" #Name="ngModel" [(ngModel)]="service.feedbackFormData.name" class="form-control form-control-sm">
+            <select required name="Name" #Name="ngModel" [(ngModel)]="feedback.name" class="form-control form-control-sm">
                 <option *ngFor="let participant of retroItem.participants" [value]="participant">
                     {{participant}}
                 </option>
@@ -17,7 +17,7 @@
             
             <!-- this event in <select> is not needed as 2 way binding is  done -->
             <!-- (change)="parsefeedbackType($event.target.value)" --> 
-            <select required name="feedbackType" #FeedbackType="ngModel" [(ngModel)]="service.feedbackFormData.feedbackType" class="form-control form-control-sm">
+            <select required name="feedbackType" #FeedbackType="ngModel" [(ngModel)]="feedback.feedbackType" class="form-control form-control-sm">
                 <option *ngFor="let name of feedbacks"[value]="name">
                     {{name}}
                 </option>
@@ -27,7 +27,7 @@
     </div>
     <div class="form-group">
         <label>Description</label>
-        <input name="body" [(ngModel)]="service.feedbackFormData.body" class="form-control form-control-sm">
+        <input name="body" [(ngModel)]="feedback.body" class="form-control form-control-sm">
     </div>
 <div class="form-group">
         <button type="submit" class="btn btn-sm btn-block">Add Feedback</button>
