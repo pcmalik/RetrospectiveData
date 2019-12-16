@@ -6,7 +6,6 @@
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
-    <div class="validation-error" *ngIf="RetroDate.invalid">This field is required</div>
  </div>
 <table class="table table-hover">
     <tr *ngFor="let retro of service.retrospectiveList">
