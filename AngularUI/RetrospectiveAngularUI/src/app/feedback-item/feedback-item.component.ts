@@ -11,11 +11,11 @@ enum FeedbackType {
 }
 
 @Component({
-  selector: 'app-feedback',
-  templateUrl: './feedback.component.html',
-  styleUrls: ['./feedback.component.css']
+  selector: 'app-feedback-item',
+  templateUrl: './feedback-item.component.html',
+  styleUrls: ['./feedback-item.component.css']
 })
-export class FeedbackComponent implements OnInit {
+export class FeedbackItemComponent implements OnInit {
   @Input() retroItem: Retrospective;
   
   feedbacks : string[];

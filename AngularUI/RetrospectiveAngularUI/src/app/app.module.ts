@@ -8,7 +8,7 @@ import { RetrospectiveComponent } from './retrospectives/retrospective/retrospec
 import { RetrospectiveListComponent } from './retrospectives/retrospective-list/retrospective-list.component';
 import { RetrospectiveService } from './shared/retrospective.service';
 import { HttpClientModule } from '@angular/common/http';
-import { FeedbackComponent } from './feedback/feedback.component';
+import { FeedbackItemComponent } from './feedback-item/feedback-item.component';
 import { MatDatepickerModule, MatNativeDateModule, MatInputModule, MAT_DATE_LOCALE } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -18,7 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     RetrospectivesComponent,
     RetrospectiveComponent,
     RetrospectiveListComponent,
-    FeedbackComponent
+    FeedbackItemComponent
   ],
   imports: [
     BrowserModule,
