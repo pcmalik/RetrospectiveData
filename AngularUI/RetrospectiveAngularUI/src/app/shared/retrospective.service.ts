@@ -32,4 +32,10 @@ export class RetrospectiveService {
     this.http.get(this.baseUrl+"/Retrospectives")
       .toPromise().then(res => this.retrospectiveList = res as Retrospective[]);
   }
+
+  filterRetrospectivesList(date: string){   
+    this.http.get(this.baseUrl+"/Retrospectives/Filter?date="+date)
+      .toPromise().then(res => this.retrospectiveList = res as Retrospective[]);
+  }
+
 }

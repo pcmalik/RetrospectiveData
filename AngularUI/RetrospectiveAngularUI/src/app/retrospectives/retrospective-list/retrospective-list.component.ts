@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RetrospectiveService } from 'src/app/shared/retrospective.service';
-import { Retrospective } from 'src/app/shared/retrospective.model';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-retrospective-list',
@@ -8,11 +8,19 @@ import { Retrospective } from 'src/app/shared/retrospective.model';
   styleUrls: ['./retrospective-list.component.css']
 })
 export class RetrospectiveListComponent implements OnInit {
-
+  retroDateFilter: Date;
   constructor(private service : RetrospectiveService) { }
 
   ngOnInit() {
     this.service.refreshList();
+  }
+
+  retroDateFilterChange() {  
+    const format = 'dd/MM/yyyy';
+    const locale = 'en-GB';
+    const formattedRetroDateFilter = formatDate(this.retroDateFilter, format, locale);
+
+    this.service.filterRetrospectivesList(formattedRetroDateFilter);
   }
 
 }
