@@ -66,7 +66,7 @@ Improvements that could have been done in Angular project:
 8) Exception handling where applicable: Done
 9) Return correct Http response with relevant status code for bad request, success response with data, success response with no context, error response for internal server error: Done
 10) Implemented Async throughout and made sure there is no blocking async call: Done
-11) Unit Tests: Done
+11) Unit Tests: Done for Get and Post methods of web api - there is scope to add more unit tests
 12) Configure serializer to get data in xml or json: Done
 13) Implement dependency Injection and follow repository pattern: Done
 14) Swagger configured for testing and added configuration for swagger documentation to describe the API: Done
