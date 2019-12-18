@@ -49,6 +49,7 @@ Below is how the level of components structured in Angular:
 Improvements that could have been done in Angular project:
 1) Base url of web api used could have been configured instead of hardcoding in retrospective.service.ts file
 2) Basic alert window will appear on click of 'Add' buttons for successfull insert or validatinn response message when it can't insert - this could be improved by using 3rd party components like https://www.npmjs.com/package/ngx-toastr
+3) Once search on date is done then there is no functionality to clear selected date value and fetch all retrospective data - you need to refresh the page to get all the retrospective data. This coud be improved by adding 'Clear' date button or by making the date component editable.
 
 **Web API:**
 
