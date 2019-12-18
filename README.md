@@ -31,6 +31,8 @@ I am aware that minor improvement needs to be done in web api project to fix thi
     1) To list available retrospectives
     2) Filter retrospectives on date selection and 
     3) Add new feedbacks under respective retrospective. Feedback can be added only for participants belonging to its respective retrospective item. Feedback Type dropdown is populated using enumeration values.
+    4) As per spec document, assumption is made that existing feedbacks/newly added feedbacks won't be shown on UI. If you need to see existing feedbacks/newly added feedbacks then you can refer to data file which can be
+       found at C:\repos\RetrospectiveData\RetrospectiveDataApi\Data\Retrospectives.json
 
 ![Angular U I](Snapshots/AngularUI.png)
 
@@ -73,3 +75,4 @@ Improvements that could have been done in Angular project:
 17) API routing configured with correct verbs: Done
 18) Controllers implemented to associate parent and child API's routing path: Done
 19) Make sure that exception stack trace from web api are logged in log file but they are not passed to client application - only sensible error message passed to client application explaining reason of failure: Done
+20) Add xml formatter to get web api response in either xml/json depending on the values in client application's accept header value: Done

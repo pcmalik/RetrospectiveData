@@ -28,7 +28,7 @@ namespace RetrospectiveDataApi.Controllers
 
             //File configured in appsettings.json serves as the data source for this api
             if (string.IsNullOrEmpty(_filePath))
-                throw new Exception("Please make sure json file configured in appsettings.json exists in the specified folder location");
+                throw new InvalidOperationException("Please make sure json file configured in appsettings.json exists in the specified folder location");
 
         }
 
@@ -42,7 +42,7 @@ namespace RetrospectiveDataApi.Controllers
             {
                 var retrospectiveDataList = await _retrospectiveDataRepository.Get(_filePath);
 
-                if (retrospectiveDataList != null)
+                if (retrospectiveDataList != null && retrospectiveDataList.Count > 0)
                     return Ok(retrospectiveDataList);
                 else
                     return NoContent();
@@ -92,11 +92,7 @@ namespace RetrospectiveDataApi.Controllers
                 var retrospectiveData = ConvertModelToEntity(retrospectiveDataModel);
 
                 var result = await _retrospectiveDataRepository.Add(_filePath, retrospectiveData);
-
-                if (result != null)
-                    return CreatedAtAction($"Get", new { name = result.Name }, result);
-                else
-                    return BadRequest("Failed to add retrospective data");
+                return CreatedAtAction($"Get", new { name = result.Name }, result);
             }
             catch (RetrospectiveDataException ex)
             {
