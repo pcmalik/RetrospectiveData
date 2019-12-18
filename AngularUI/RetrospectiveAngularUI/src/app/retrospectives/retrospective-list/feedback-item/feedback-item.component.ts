@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Retrospective } from '../shared/retrospective.model';
-import { RetrospectiveService } from '../shared/retrospective.service';
+import { Retrospective } from '../../../shared/retrospective.model';
+import { RetrospectiveService } from '../../../shared/retrospective.service';
 import { NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Feedback } from '../shared/feedback.model';
+import { Feedback } from '../../../shared/feedback.model';
 
 enum FeedbackType {
   Positive,
