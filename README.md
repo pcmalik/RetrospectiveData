@@ -14,7 +14,8 @@ C:\repos\
    It should launch Swagger UI on https://localhost:44387/swagger/index.html - keep this running before you start UI
    **Note:** It may work in other versions of visual studio with .net Core 3.1 framework installed but I have not tested it.
 
-2) Assuming Angular project is downloaded at below mentioned folder location then run below command on Angular CLI 
+2) Assuming Angular project is downloaded at below mentioned folder location then run below 2 commands on Angular CLI 
+   C:\repos\RetrospectiveData\AngularUI\RetrospectiveAngularUI>**npm install**
    C:\repos\RetrospectiveData\AngularUI\RetrospectiveAngularUI>**ng serve --open**
    Angular UI should launch on: http://localhost:4200/
 
